@@ -5,7 +5,7 @@ letters_great="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 digits="0123456789"
 special_chars="!#$%&'()*+,-./:;<=>?@[]^_`{|}~"
 
-passwords = {}
+passwords: dict[str,str] = {}
 
 def adding_password():
     while True:
@@ -24,11 +24,9 @@ def adding_password():
         except ValueError:
             print("Please insert a number.")
             continue
-
         if length<4:
             print("Password too short. Try again.")
-            continue
-        
+            continue   
         break
 
     chars = (
@@ -45,8 +43,8 @@ def adding_password():
 
 
 def show_passwords():
-	if not bool(passwords)==True:
-		print("Not found")
+	if not passwords:
+		print("Not passwords yet.")
 	else: 
 		for webiste,password in passwords.items():
 			print(f"The password for {webiste} is {password}")
