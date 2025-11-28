@@ -8,31 +8,49 @@ special_chars="!#$%&'()*+,-./:;<=>?@[]^_`{|}~"
 passwords = {}
 
 def adding_password():
-	while True:
-		try:
-			webiste=str(input("Insert a name of webiste: "))
-			try:
-				n=int(input("Insert a length of password: "))
-				if n<4:
-					print("Select a number greater or equal than 4")
-				else:
-					print("Trying to set safe password")
-					password=""
-					for i in range (n):
-						password+=random.choice(letters_small)
-					password+=random.choice(letters_great)+random.choice(special_chars)+random.choice(digits)
-					passwords[webiste]=password
+    while True:
+        website=input("Insert website name: ").strip().lower()
+        if not website:
+        	print("Please insert a valid name.")
+        	continue
+        if website in passwords.keys():
+        	print("That website exists in the database.")
+        else:
+        	break
 
-					print("Your password was set.")
-					break
-			except ValueError:
-				print("Insert valid value.")
-		except ValueError:
-			print("Insert valid value.")
+    while True:
+        try:
+            length=int(input("Insert password length (min. 4): "))
+        except ValueError:
+            print("Please insert a number.")
+            continue
+
+        if length<4:
+            print("Password too short. Try again.")
+            continue
+        
+        break
+
+    chars = (
+        [random.choice(letters_small) for _ in range(length-3)] +
+        [random.choice(letters_great),
+         random.choice(special_chars),
+         random.choice(digits)]
+    )
+
+    random.shuffle(chars)
+    password="".join(chars)
+    passwords[website]=password
+    print(f"Password for {website} set successfully!")
+
 
 def show_passwords():
-	for webiste,password in passwords.items():
-		print(f"The password for {webiste} is {password}")
+	if not bool(passwords)==True:
+		print("Not found")
+	else: 
+		for webiste,password in passwords.items():
+			print(f"The password for {webiste} is {password}")
+
 
 def search_password():
 	while True:
@@ -46,15 +64,17 @@ def search_password():
 		except ValueError:
 			print("Insert a valid value.")
 
-print("Welcome at passwords' manager")
-print("Select an activity: ")
-print("1 - Add new password. This programme will generate new one.")
-print("2 - Show passwords.")
-print("3 - Search your password by inserting page's name.")
-print("4 - Exit.")
+def menu():
+	print("Select an activity: ")
+	print("1 - Add new password. This programme will generate new one.")
+	print("2 - Show passwords.")
+	print("3 - Search your password by inserting page's name.")
+	print("4 - Exit.")
 
+print("Welcome at passwords' manager")
 while True:
 	try:
+		menu()
 		x=int(input("Insert a number: "))
 		if x==1:
 			adding_password()
