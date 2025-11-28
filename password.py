@@ -37,7 +37,7 @@ def show_passwords():
 def search_password():
 	while True:
 		try:
-			word=str(input("Input a webiste's name: "))
+			word=str(input("Input a website's name: "))
 			if word in passwords.keys():
 				print(f"Password for {word} is {passwords[word]}")
 				break
